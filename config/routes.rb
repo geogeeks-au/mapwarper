@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   end
   
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  get '/maps/batch' => 'maps#batch', :as => 'batch_map'
+  post '/maps/batch' => 'maps#process_batch', :as => 'process_batch_map'
   
   resources :maps  do
     member do

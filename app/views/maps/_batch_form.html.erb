@@ -1,0 +1,16 @@
+<%= form_for(:csv, :html => {:multipart => true}) do |f| %>
+  <div class="column span-24">
+	<p>
+	<label for="upload"><b>Upload A CSV File:</b>
+	  <% if @max_size %>
+	    Max size: <%=  number_to_human_size @max_size %>.
+	  <% end %>
+	  <%= @upload_file_message %>
+	</label> <br />
+	<%= f.file_field :filename %>
+	</p>
+    <p>
+      <%= f.submit("Upload")%>
+    </p>
+  </div>
+<% end %>

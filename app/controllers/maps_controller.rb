@@ -1,4 +1,20 @@
 class MapsController < ApplicationController
+  def batch 
+    @csv = Csv.new
+    @csv.filename = "[nothing to see here]"
+    @html_title = "Batch upload some maps to "
+    #@max_size = Map.max_attachment_size
+    if Map.max_dimension
+      @upload_file_message  = " It may resize the image if it's too large (#{Map.max_dimension}x#{Map.max_dimension}) "
+    else
+      @upload_file_message = ""
+    end
+
+    respond_to do |format|
+      format.html { render :batch }  # batch.html.erb
+      format.xml  { render :xml => @csv }
+    end
+  end
 
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
   
@@ -9,7 +25,7 @@ class MapsController < ApplicationController
   before_filter :check_administrator_role, :only => [:publish]
  
   before_filter :find_map_if_available,
-    :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:show, :index, :batch, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
@@ -20,7 +36,35 @@ class MapsController < ApplicationController
 
   helper :sort
   include SortHelper
-  
+ 
+  def batch 
+    @csv = Csv.new
+    @csv.filename = "[nothing to see here]"
+    @html_title = "Batch upload some maps to "
+    #@max_size = Map.max_attachment_size
+    if Map.max_dimension
+      @upload_file_message  = " It may resize the image if it's too large (#{Map.max_dimension}x#{Map.max_dimension}) "
+    else
+      @upload_file_message = ""
+    end
+
+    respond_to do |format|
+      format.html { render :batch }  # batch.html.erb
+      format.xml  { render :xml => @csv }
+    end
+  end
+    
+  def process_batch 
+    @csv = Csv.new
+    @html_title = "Batch upload some maps to "
+    @upload_file_message  = "Thanks for uploading."
+
+    respond_to do |format|
+      format.html { render :batch }  # batch.html.erb
+      format.xml  { render :xml => @csv }
+    end
+  end
+ 
   ###############
   #
   # CRUD
@@ -42,6 +86,8 @@ class MapsController < ApplicationController
       format.xml  { render :xml => @map }
     end
   end
+
+
   
   def create
     @map = Map.new(map_params)
@@ -208,7 +254,6 @@ class MapsController < ApplicationController
     end
   end
   
-    
   def geosearch
     require 'geoplanet'
     sort_init 'updated_at'

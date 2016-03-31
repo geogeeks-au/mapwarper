@@ -1,0 +1,13 @@
+<h2>Batch upload a CSV of map information</h2>
+
+<%= error_messages_for @map %>
+<p>
+  By uploading images to the website, you agree that you have permission to do so, and accept that anyone else
+  can potentially view and use them, including changing control points.
+</p>
+<p>
+  This feature is experimental (not currently working) and should be used with care if at all. 
+</p>
+<br><br>
+<%= render :partial => "batch_form", :locals => {:page => "batch"} %>
+<%= link_to 'Back', maps_path %>
