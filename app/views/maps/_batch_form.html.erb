@@ -1,4 +1,4 @@
-<%= form_for(:csv, :html => {:multipart => true}) do |f| %>
+<%= form_for(:csv, :html => {:multipart => true}, :remote => true) do |f| %>
   <div class="column span-24">
 	<p>
 	<label for="upload"><b>Upload A CSV File:</b>
