@@ -21,9 +21,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/srv/mapwarper"
+  
+  # State Records Office imagery
+  config.vm.synced_folder "/Volumes/Space/data/Cons", "/srv/sro"
 
   config.vm.provision :shell, :path => "lib/vagrant/provision.sh"
-  
 
   #you may want to alter this
   config.vm.provider :virtualbox do |v|
@@ -32,5 +34,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # v.customize [ "modifyvm", :id, "--hwvirtex", "off", "--memory", 1024, "--cpus", 1 ]
   end
 
-  
+  config.ssh.private_key_path = "~/.ssh/id_mapwarper"
+
 end
